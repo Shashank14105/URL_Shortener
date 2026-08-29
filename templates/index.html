@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: #f5f7fa;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .error {
+            color: #b91c1c;
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .success {
+            color: #065f46;
+            background: #d1fae5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            word-break: break-all;
+        }
+        th {
+            background-color: #eef2f7;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 URL Shortener</h1>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if short_url %}
+        <div class="success">
+            Your short URL: <a href="{{ short_url }}">{{ short_url }}</a>
+        </div>
+    {% endif %}
+
+    <form action="/shorten" method="POST">
+        <input
+            type="text"
+            name="long_url"
+            placeholder="Enter a long URL (e.g. https://example.com/some/long/path)"
+            required
+        >
+        <button type="submit">Shorten</button>
+    </form>
+
+    <h2>Previously Shortened URLs</h2>
+    {% if urls %}
+        <table>
+            <tr>
+                <th>Short Code</th>
+                <th>Original URL</th>
+                <th>Clicks</th>
+            </tr>
+            {% for code, record in urls %}
+            <tr>
+                <td><a href="/{{ code }}">{{ code }}</a></td>
+                <td><a href="{{ record.original_url }}" target="_blank">{{ record.original_url }}</a></td>
+                <td>{{ record.clicks }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No URLs shortened yet.</p>
+    {% endif %}
+</body>
+</html>
