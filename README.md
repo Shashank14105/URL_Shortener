@@ -327,4 +327,3 @@ This project is intended for educational and development purposes.
 
 GitHub: [https://www.github.com/Shashank14105](https://www.github.com/Shashank14105)
 
-If you find this project useful, consider giving the repository a ⭐ on GitHub.
